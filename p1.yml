@@ -1,0 +1,7 @@
+---
+  - ParameterKey: ParamKeyName
+    ParameterValue: testkey
+
+  - ParameterKey: InstanceType
+    ParameterValue: t3.nano
+

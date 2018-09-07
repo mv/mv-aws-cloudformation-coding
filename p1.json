@@ -1,0 +1,6 @@
+
+[
+  { "ParameterKey": "ParamKeyName"      , "ParameterValue": "testkey" },
+  { "ParameterKey": "ParamInstanceType" , "ParameterValue": "t3.nano" }
+]
+
