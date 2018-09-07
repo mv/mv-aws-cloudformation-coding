@@ -1,0 +1,27 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "AWS CloudFormation Sample VPC",
+
+  "Mappings" : {
+
+    "VPCConfig" : {
+      "VPC"       : { "CIDR" : "172.18.0.0/16" },
+
+      "PublicA"   : { "CIDR" : "172.18.11.0/24" },
+      "PrivateA"  : { "CIDR" : "172.18.12.0/24" },
+      "DBSubnetA" : { "CIDR" : "172.18.13.0/24" },
+
+      "PublicB"   : { "CIDR" : "172.18.21.0/24" },
+      "PrivateB"  : { "CIDR" : "172.18.22.0/24" },
+      "DBSubnetB" : { "CIDR" : "172.18.23.0/24" },
+
+      "PublicC"   : { "CIDR" : "172.18.31.0/24" },
+      "PrivateC"  : { "CIDR" : "172.18.32.0/24" },
+      "DBSubnetC" : { "CIDR" : "172.18.33.0/24" }
+    }
+
+  }
+
+}
+
