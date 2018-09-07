@@ -1,0 +1,32 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "AWS CloudFormation Sample VPC",
+
+  "Parameters" : {
+
+    "InstanceTypeRedshift" : {
+      "Description" : "Redshift instance type",
+      "Type" : "String",
+      "Default" : "t2.micro",
+      "AllowedValues" : [
+
+        # https://aws.amazon.com/redshift/pricing/
+        # https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html
+
+        # Dense Storage
+        "ds2.xlarge" , "ds2.8xlarge" ,
+        "ds1.xlarge" , "ds1.8xlarge" ,
+
+        # Dense Compute
+        "dc2.large"  , "dc2.8xlarge" ,
+        "dc1.large"  , "dc1.8xlarge"
+      ],
+      "ConstraintDescription" : "must be a valid Redshift instance type."
+    }
+
+  }
+
+}
+
+
