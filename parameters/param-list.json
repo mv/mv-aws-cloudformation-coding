@@ -1,6 +1,6 @@
 
 [
-  { "ParameterKey": "KeyPairName"  , "ParameterValue": "MyKey"    },
-  { "ParameterKey": "InstanceType" , "ParameterValue": "m1.micro" }
+  { "ParameterKey": "KeyPairName"  , "ParameterValue": "TestKey"  },
+  { "ParameterKey": "InstanceType" , "ParameterValue": "t2.micro" }
 ]
 
