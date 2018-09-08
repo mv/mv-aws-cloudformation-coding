@@ -184,7 +184,6 @@ end
 
 @name     = ENV['name'] || `echo ${file%%.*}`
 @params   = " --parameters file://#{@dir}/#{@param} " if ENV['param']
-@template = "#{@dir}/#{@file}"                        if ENV['file']
 
 # valid only inside the script.
 ENV['AWS_DEFAULT_REGION'] = ENV['region'] if ENV['region']
