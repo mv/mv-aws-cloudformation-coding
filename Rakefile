@@ -139,11 +139,17 @@ Usage:
   rake us file=<file-name> name=<stack-name> [param=<param-file] [region=aws-region]
   rake vt file=<file-name>
 
+Or:
+  file=<file-name> name=<stack-name> [param=<param-file] rake cs
+  file=<file-name> name=<stack-name> [param=<param-file] rake us
+  file=<file-name> name=<stack-name> [param=<param-file] rake vt
+
 Where:
-  stack-name:  AWS Cloudformation stack name to be created.
   file-name:   AWS Cloudformation template file to be used.
-  param-file:  Parameter file in JSON format.
-  region:      AWS region to create the stack.
+  stack-name:  AWS Cloudformation stack name to be created.
+               It will use <file-name> if not defined.
+  param-file:  Optional: Parameter file in JSON format.
+  region:      Optional: AWS region to create the stack.
 
 Parameter file JSON format:
   [
@@ -185,7 +191,7 @@ end
 @name     = ENV['name'] || `echo ${file%%.*}`
 @params   = " --parameters file://#{@dir}/#{@param} " if ENV['param']
 
-# valid only inside the script.
+## Hack: valid only inside the script.
 ENV['AWS_DEFAULT_REGION'] = ENV['region'] if ENV['region']
 
 
