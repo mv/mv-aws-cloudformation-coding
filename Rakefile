@@ -175,7 +175,7 @@ end
 
 ## command line parameters
 if ENV['file']
-  @file  = ENV['file']
+  @file = ENV['file']
 else
   printf "\nError:\n  file=''\n  Supply a template file for your Cloudformation stack.\n"
   usage()
