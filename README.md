@@ -25,6 +25,7 @@ When creating new stacks in my dev account generally I need:
 I built a `Rakefile` with some helper tasks to accomplish that. For example
 
 
+    ```shell
     # vpc example
     $ cd templates/vpc/
     $
@@ -41,6 +42,8 @@ I built a `Rakefile` with some helper tasks to accomplish that. For example
     $ file=vpc-3-az-172-18.cloudformation.json rake us   # update.
     #
     # Test same template, with a new name
+    #   file: vpc-3-az-172-18.cloudformation.json
+    #   name: vpc-v2 (new stack, new name)
     #
     $ file=vpc-3-az-172-18.cloudformation.json name=vpc-v2 rake vt   # validate...
     $ file=vpc-3-az-172-18.cloudformation.json name=vpc-v2 rake cs   # created!
@@ -50,17 +53,22 @@ I built a `Rakefile` with some helper tasks to accomplish that. For example
     $ file=vpc-3-az-172-18.cloudformation.json name=vpc-v2 rake us   # update.
     #
     # Test same template, using parameters
+    #   file: vpc-3-az-172-18.cloudformation.json
+    #   name: vpc-v2
+    #   param: my first set of parameters
     #
     $ file=vpc-3-az-172-18.cloudformation.json name=vpc-v2 param=p1.json rake vt   # validate...
     $ file=vpc-3-az-172-18.cloudformation.json name=vpc-v2 param=p1.json rake us   # update.
     $ file=vpc-3-az-172-18.cloudformation.json name=vpc-v2 param=p1.json rake vt   # validate...
     $ file=vpc-3-az-172-18.cloudformation.json name=vpc-v2 param=p1.json rake us   # update.
+    ```
 
 
 ## Rake file
 
 To see how to use the helpers:
 
+    ```
     Usage:
     rake cs file=<file-name> name=<stack-name> [param=<param-file] [region=aws-region]
     rake us file=<file-name> name=<stack-name> [param=<param-file] [region=aws-region]
@@ -84,5 +92,6 @@ To see how to use the helpers:
         { "ParameterKey": "KeyPairName"  , "ParameterValue": "TestKey"  },
         { "ParameterKey": "InstanceType" , "ParameterValue": "t2.micro" }
     ]
+    ```
 
 
