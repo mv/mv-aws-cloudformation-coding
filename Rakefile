@@ -77,7 +77,7 @@ task :cs do
       aws cloudformation create-stack \
           --output json \
           --template-body file://#{@file} \
-          --stack-name #{@stack} \
+          --stack-name #{@name} \
           #{@params}
     }.gsub(/^[ ]*/,'').gsub(/[ ]+/,' ')
   rescue
@@ -98,7 +98,7 @@ task :us do
       aws cloudformation update-stack \
           --output json \
           --template-body file://#{@file} \
-          --stack-name #{@stack} \
+          --stack-name #{@name} \
           #{@params}
     }.gsub(/^[ ]*/,'').gsub(/[ ]+/,' ')
   rescue
@@ -119,7 +119,7 @@ task :ds do
       cd #{@dir} &&
       aws cloudformation delete-stack \
           --output json \
-          --stack-name #{@stack}
+          --stack-name #{@name}
     }.gsub(/^[ ]*/,'').gsub(/[ ]+/,' ')
   rescue
     printf "\nrake: aws cloudformation: not deleted.\n\n"
@@ -183,7 +183,6 @@ else
 end
 
 @name     = ENV['name'] || `echo ${file%%.*}`
-@stack    = @name
 @params   = " --parameters file://#{@dir}/#{@param} " if ENV['param']
 @template = "#{@dir}/#{@file}"                        if ENV['file']
 
