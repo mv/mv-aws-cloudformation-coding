@@ -89,6 +89,7 @@ To see how to use the helpers:
     region:      Optional: AWS region to create the stack.
 
     Parameter file JSON format:
+    ```
     ```javascript
     [
         { "ParameterKey": "MyName"       , "ParameterValue": "MyValue"  },
