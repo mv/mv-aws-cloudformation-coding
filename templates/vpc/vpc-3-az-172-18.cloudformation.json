@@ -287,21 +287,20 @@
 
 
   "Outputs" : {
-    "VPC"         : { "Description" : "VPC id"    , "Value" : { "Ref" : "VPC"         } , "Export" : { "Name" : "VPC"         } } ,
-    "PubSubnetA"  : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPubA"  } , "Export" : { "Name" : "SubnetPubA"  } } ,
-    "PrivSubnetA" : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPrivA" } , "Export" : { "Name" : "SubnetPrivA" } } ,
-    "DbSubnetA"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbA"   } , "Export" : { "Name" : "SubnetDbA"   } } ,
-    "PubSubnetB"  : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPubB"  } , "Export" : { "Name" : "SubnetPubB"  } } ,
-    "PrivSubnetB" : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPrivB" } , "Export" : { "Name" : "SubnetPrivB" } } ,
-    "DbSubnetB"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbB"   } , "Export" : { "Name" : "SubnetDbB"   } } ,
-    "PubSubnetC"  : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPubC"  } , "Export" : { "Name" : "SubnetPubC"  } } ,
-    "PrivSubnetC" : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPrivC" } , "Export" : { "Name" : "SubnetPrivC" } } ,
-    "DbSubnetC"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbC"   } , "Export" : { "Name" : "SubnetDbC"   } } ,
-    "EIPNatA"     : { "Description" : "Public IP" , "Value" : { "Ref" : "EIPNatA"     } , "Export" : { "Name" : "EIPNatA"     } } ,
-    "EIPNatB"     : { "Description" : "Public IP" , "Value" : { "Ref" : "EIPNatB"     } , "Export" : { "Name" : "EIPNatB"     } } ,
-    "EIPNatC"     : { "Description" : "Public IP" , "Value" : { "Ref" : "EIPNatC"     } , "Export" : { "Name" : "EIPNatC"     } }
+    "VPC"         : { "Description" : "VPC id"    , "Value" : { "Ref" : "VPC"         } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-VPC"         } } } ,
+    "PubSubnetA"  : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPubA"  } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPubA"  } } } ,
+    "PrivSubnetA" : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPrivA" } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPrivA" } } } ,
+    "DbSubnetA"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbA"   } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetDbA"   } } } ,
+    "PubSubnetB"  : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPubB"  } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPubB"  } } } ,
+    "PrivSubnetB" : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPrivB" } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPrivB" } } } ,
+    "DbSubnetB"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbB"   } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetDbB"   } } } ,
+    "PubSubnetC"  : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPubC"  } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPubC"  } } } ,
+    "PrivSubnetC" : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPrivC" } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPrivC" } } } ,
+    "DbSubnetC"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbC"   } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetDbC"   } } } ,
+    "EIPNatA"     : { "Description" : "Public IP" , "Value" : { "Ref" : "EIPNatA"     } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-EIPNatA"     } } } ,
+    "EIPNatB"     : { "Description" : "Public IP" , "Value" : { "Ref" : "EIPNatB"     } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-EIPNatB"     } } } ,
+    "EIPNatC"     : { "Description" : "Public IP" , "Value" : { "Ref" : "EIPNatC"     } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-EIPNatC"     } } }
     }
-
 
 }
 
