@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# Test:
+#    ./validate-template.sh  file.cloudformation.json
+#
 
 
 file="${1}"

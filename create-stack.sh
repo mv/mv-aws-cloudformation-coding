@@ -1,5 +1,8 @@
 #!/bin/bash
-
+#
+# Test:
+#    ./create-stack.sh  file.cloudformation.json  [file.param.json]
+#
 
 file="${1}"
 name="${file%.*}"
