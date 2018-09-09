@@ -57,7 +57,7 @@ task :vt do
       cd #{@dir} &&
       aws cloudformation validate-template  \
         --output table                      \
-        --template-body file://#{@template} \
+        --template-body file://#{@file}     \
     }.gsub(/^[ ]*/,'').gsub(/[ ]+/,' ')
   rescue
     printf "\nrake: aws cloudformation: template not valid.\n\n"
