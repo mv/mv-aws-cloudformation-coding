@@ -16,7 +16,7 @@ This script will deliver:
 
 The following diagram shows the architecture:
 
-[3AZs - Complete](img/vpc-3az-complete.png)
+![VPC 3AZs - Complete](img/vpc-3az-complete.png?raw=true "VPC 3 AZs")
 
 
 In this diagram the 3 AZs are:
@@ -31,11 +31,11 @@ In this diagram the 3 AZs are:
 Routing for the Public subnets is straight forward - all public subnets must
 route through the Internet Gateway using the following route table:
 
-Rt-Public (Route Table Public)
-+---------------------------+
-| local     | 10.100.0.0/16 |
-| 0.0.0.0/0 | igw-id-xxxx   |
-+---------------------------+
+    Rt-Public (Route Table Public)
+    +---------------------------+
+    | local     | 10.100.0.0/16 |
+    | 0.0.0.0/0 | igw-id-xxxx   |
+    +---------------------------+
 
 In this example, the VPC was created with a CIDR of 10.100.0.0/16.
 
@@ -85,30 +85,24 @@ Routing for the private subnets is quite simple. Again each AZ has its own NAT
 resource and VPC route table:
 
 
-Rt-Priv-A (Route Table Subnet Private A)
-+---------------------------+
-| local     | 10.100.0.0/16 |
-| 0.0.0.0/0 | nat-A-id-xxxx |
-+---------------------------+
+    Rt-Priv-A (Route Table Subnet Private A)
+    +---------------------------+
+    | local     | 10.100.0.0/16 |
+    | 0.0.0.0/0 | nat-A-id-xxxx |
+    +---------------------------+
 
 
-Rt-Priv-B (Route Table Subnet Private B)
-+---------------------------+
-| local     | 10.100.0.0/16 |
-| 0.0.0.0/0 | nat-B-id-xxxx |
-+---------------------------+
+    Rt-Priv-B (Route Table Subnet Private B)
+    +---------------------------+
+    | local     | 10.100.0.0/16 |
+    | 0.0.0.0/0 | nat-B-id-xxxx |
+    +---------------------------+
 
 
-Rt-Priv-C (Route Table Subnet Private C)
-+---------------------------+
-| local     | 10.100.0.0/16 |
-| 0.0.0.0/0 | nat-C-id-xxxx |
-+---------------------------+
-
-
-Rt-Priv-C (Route Table Subnet Private C)
-----------------------------------------
-local     | 10.100.0.0/16
-0.0.0.0/0 | nat-C-id-xxxx
+    Rt-Priv-C (Route Table Subnet Private C)
+    +---------------------------+
+    | local     | 10.100.0.0/16 |
+    | 0.0.0.0/0 | nat-C-id-xxxx |
+    +---------------------------+
 
 
