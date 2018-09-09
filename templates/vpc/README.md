@@ -9,14 +9,14 @@ This script will deliver:
 * 3 AZs
 * 3 NAT Gateways, 1 per AZ
 * 3 Elastic IPs, 1 per NAT Gateway
-* 9 Subnets, 3 per AZ: Public subnet, Private subnet, DB sunet
+* 9 Subnets, 3 per AZ: Public subnet, Private subnet, DB subnet
 * 4 Route Tables: 1 Public, 3 Private
 * 1 SSH Security Group, for testing purposes
 
 
 The following diagram shows the architecture:
 
-![VPC 3AZs - Complete](img/vpc-3az-complete.png?raw=true "VPC 3 AZs")
+![VPC - 3AZs - Route Tables](img/vpc-3azs-route-tables.png?raw=true "VPC 3 AZs")
 
 
 In this diagram the 3 AZs are:
@@ -40,14 +40,25 @@ route through the Internet Gateway using the following route table:
 In this example, the VPC was created with a CIDR of 10.100.0.0/16.
 
 One route table defines the access for all public subnets in the VPC. There will
-be on public subnet for each AZ.
+be one public subnet for each AZ.
 
 When you consider that each AZ maps to a geographically distinct datacenter, you
 will need a public subnet in that AZ so to be able to access the internet.
 Because the Internet Gateway works across all AZs, only one route table will
 define the access for all public subnets.
 
-[3AZs - Route Public](img/3azs-route-public.png)
+When doing the association of the public route table with each specific
+public subnet, the final result should be something like:
+
+
+    1. Rt-Priv-A (Route Table Subnet Private A)
+       - associate to Public Subnet A
+       - associate to Public Subnet B
+       - associate to Public Subnet C
+       - associate to any future public subnet
+
+
+![VPC - 3AZs - Public](img/vpc-3azs-route-public.png?rqw=true "Public Routing")
 
 
 ## Routing: the Private subnets - NAT Gateways
@@ -69,7 +80,8 @@ Because a NAT Gateway is local to a specific AZ, each AZ will have its own NAT
 Gateway with its own route table. In the diagram:
 
 
-[3AZs - Route Private](img/3azs-route-private.png)
+![VPC - 3AZs - Private](img/vpc-3azs-route-private.png?raw=true "Private Routing")
+
 
 There are many advantages of this scenario:
 
@@ -105,4 +117,23 @@ resource and VPC route table:
     | 0.0.0.0/0 | nat-C-id-xxxx |
     +---------------------------+
 
+
+When doing the association of the private route tables with each specific
+private subnet, the final result should be something like:
+
+
+    1. Rt-Priv-A (Route Table Subnet Private A)
+       - associate to Private Subnet A
+       - associate to DB Subnet A
+       - associate to any future subnet on AZ A
+
+    2. Rt-Priv-B (Route Table Subnet Private B)
+       - associate to Private Subnet B
+       - associate to DB Subnet B
+       - associate to any future subnet on AZ B
+
+    3. Rt-Priv-C (Route Table Subnet Private C)
+       - associate to Private Subnet C
+       - associate to DB Subnet C
+       - associate to any future subnet on AZ C
 
