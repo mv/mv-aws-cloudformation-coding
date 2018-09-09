@@ -1,14 +1,16 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "VPC-cf-10-100: VPC built using AWS CloudFormation",
+  "Description" : "VPC-10-100: VPC built using AWS CloudFormation",
 
   "Parameters" : {
 
     "VPCName" : {
       "Type" : "String",
-      "Default" : "VPC-cf-10-100",
-      "Description" : "VPC name. Default: VPC-cf-10-100 (VPC from CloudFormation)"
+      "Default" : "VPC-10-100",
+      "Description" : "VPC name. Default: VPC-10-100 (VPC from CloudFormation)"
+    },
+
     "SSHLocation" : {
       "Type" : "String",
       "Description" : "SSH source. Default: 0.0.0.0/0",
@@ -86,7 +88,8 @@
         "VpcId": { "Ref": "VPC" },
         "AvailabilityZone": {"Fn::Select": [0, {"Fn::GetAZs": ""}]},
         "CidrBlock": { "Fn::FindInMap": [ "VPCRange", "PublicA", "CIDR" ]},
-        "Tags"     : [ { "Key" : "Name"  ,   "Value" : "PubSubnet-A" } ]
+        "Tags"     : [ { "Key" : "Name", "Value" : "PubSubnet-A"         } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
     "SubnetPrivA" : {
@@ -95,7 +98,8 @@
         "VpcId": { "Ref": "VPC" },
         "AvailabilityZone": {"Fn::Select": [0, {"Fn::GetAZs": ""}]},
         "CidrBlock": { "Fn::FindInMap": [ "VPCRange", "PrivateA", "CIDR" ]},
-        "Tags"     : [ { "Key" : "Name"  ,   "Value" : "PrivSubnet-A" } ]
+        "Tags"     : [ { "Key" : "Name", "Value" : "PrivSubnet-A"        } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
     "SubnetDbA" : {
@@ -104,7 +108,8 @@
         "VpcId": { "Ref": "VPC" },
         "AvailabilityZone": {"Fn::Select": [0, {"Fn::GetAZs": ""}]},
         "CidrBlock": { "Fn::FindInMap": [ "VPCRange", "DBSubnetA", "CIDR" ]},
-        "Tags"     : [ { "Key" : "Name"  ,   "Value" : "DbSubnet-A" } ]
+        "Tags"     : [ { "Key" : "Name", "Value" : "DbSubnet-A"          } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
 
@@ -115,7 +120,8 @@
         "VpcId": { "Ref": "VPC" },
         "AvailabilityZone": {"Fn::Select": [1, {"Fn::GetAZs": ""}]},
         "CidrBlock": { "Fn::FindInMap": [ "VPCRange", "PublicB", "CIDR" ]},
-        "Tags"     : [ { "Key" : "Name"  ,   "Value" : "PubSubnet-B" } ]
+        "Tags"     : [ { "Key" : "Name", "Value" : "PubSubnet-B"         } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
     "SubnetPrivB" : {
@@ -124,7 +130,8 @@
         "VpcId": { "Ref": "VPC" },
         "AvailabilityZone": {"Fn::Select": [1, {"Fn::GetAZs": ""}]},
         "CidrBlock": { "Fn::FindInMap": [ "VPCRange", "PrivateB", "CIDR" ]},
-        "Tags"     : [ { "Key" : "Name"  ,   "Value" : "PrivSubnet-B" } ]
+        "Tags"     : [ { "Key" : "Name", "Value" : "PrivSubnet-B"        } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
     "SubnetDbB" : {
@@ -133,7 +140,8 @@
         "VpcId": { "Ref": "VPC" },
         "AvailabilityZone": {"Fn::Select": [1, {"Fn::GetAZs": ""}]},
         "CidrBlock": { "Fn::FindInMap": [ "VPCRange", "DBSubnetB", "CIDR" ]},
-        "Tags"     : [ { "Key" : "Name"  ,   "Value" : "DbSubnet-B" } ]
+        "Tags"     : [ { "Key" : "Name", "Value" : "DbSubnet-B"          } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
 
@@ -144,7 +152,8 @@
         "VpcId": { "Ref": "VPC" },
         "AvailabilityZone": {"Fn::Select": [2, {"Fn::GetAZs": ""}]},
         "CidrBlock": { "Fn::FindInMap": [ "VPCRange", "PublicC", "CIDR" ]},
-        "Tags"     : [ { "Key" : "Name"  ,   "Value" : "PubSubnet-C" } ]
+        "Tags"     : [ { "Key" : "Name", "Value" : "PubSubnet-C"         } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
     "SubnetPrivC" : {
@@ -153,7 +162,8 @@
         "VpcId": { "Ref": "VPC" },
         "AvailabilityZone": {"Fn::Select": [2, {"Fn::GetAZs": ""}]},
         "CidrBlock": { "Fn::FindInMap": [ "VPCRange", "PrivateC", "CIDR" ]},
-        "Tags"     : [ { "Key" : "Name"  ,   "Value" : "PrivSubnet-C" } ]
+        "Tags"     : [ { "Key" : "Name", "Value" : "PrivSubnet-C"        } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
     "SubnetDbC" : {
@@ -162,7 +172,8 @@
         "VpcId": { "Ref": "VPC" },
         "AvailabilityZone": {"Fn::Select": [2, {"Fn::GetAZs": ""}]},
         "CidrBlock": { "Fn::FindInMap": [ "VPCRange", "DBSubnetC", "CIDR" ]},
-        "Tags"     : [ { "Key" : "Name"  ,   "Value" : "DbSubnet-C" } ]
+        "Tags"     : [ { "Key" : "Name", "Value" : "DbSubnet-C"          } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
 
@@ -171,7 +182,8 @@
       "Type" : "AWS::EC2::RouteTable",
       "Properties" : {
         "VpcId" : { "Ref" : "VPC" },
-        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Public" } ]
+        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Public"  } ,
+                   { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
     "RouteIGW" : {
@@ -205,14 +217,16 @@
       "Properties" : {
         "AllocationId" : { "Fn::GetAtt" : ["EIPNatA", "AllocationId"]},
         "SubnetId" : { "Ref" : "SubnetPubA"},
-        "Tags" : [{ "Key":"Name", "Value":{ "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-A" ]] } }]
+        "Tags" : [{ "Key":"Name", "Value":{ "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-A" ]] } },
+                  { "Key":"VPC" , "Value":{ "Ref" : "VPCName" } } ]
       }
     },
     "RouteTablePrivA" : {
       "Type" : "AWS::EC2::RouteTable",
       "Properties" : {
         "VpcId" : { "Ref" : "VPC" },
-        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Priv-A" } ]
+        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Priv-A"  } ,
+                   { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
     "RouteNatA" : {
@@ -241,14 +255,16 @@
       "Properties" : {
         "AllocationId" : { "Fn::GetAtt" : ["EIPNatB", "AllocationId"]},
         "SubnetId" : { "Ref" : "SubnetPubB"},
-        "Tags" : [{ "Key":"Name", "Value":{ "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-B" ]] } }]
+        "Tags" : [{ "Key":"Name", "Value":{ "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-B" ]] } },
+                  { "Key":"VPC" , "Value":{ "Ref" : "VPCName" } } ]
       }
     },
     "RouteTablePrivB" : {
       "Type" : "AWS::EC2::RouteTable",
       "Properties" : {
         "VpcId" : { "Ref" : "VPC" },
-        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Priv-B" } ]
+        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Priv-B"  } ,
+                   { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
     "RouteNatB" : {
@@ -277,14 +293,16 @@
       "Properties" : {
         "AllocationId" : { "Fn::GetAtt" : ["EIPNatC", "AllocationId"]},
         "SubnetId" : { "Ref" : "SubnetPubC"},
-        "Tags" : [{ "Key":"Name", "Value":{ "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-C" ]] } }]
+        "Tags" : [{ "Key":"Name", "Value":{ "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-C" ]] } },
+                  { "Key":"VPC" , "Value":{ "Ref" : "VPCName" } } ]
       }
     },
     "RouteTablePrivC" : {
       "Type" : "AWS::EC2::RouteTable",
       "Properties" : {
         "VpcId" : { "Ref" : "VPC" },
-        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Priv-C" } ]
+        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Priv-C"  } ,
+                   { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
       }
     },
     "RouteNatC" : {
