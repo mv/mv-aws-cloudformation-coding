@@ -190,7 +190,10 @@ else
 end
 
 @name  = ENV['name'] || `echo ${file%%.*}`
-@param = " --parameters file://#{ ENV['param'] } " if ENV['param']
+
+# TODO: command-line can be param=file.json OR params=file.json
+@param = " --parameters file://#{ ENV['param']  } " if ENV['param']
+@param = " --parameters file://#{ ENV['params'] } " if ENV['params']
 
 ## Hack: valid only inside the script.
 ENV['AWS_DEFAULT_REGION'] = ENV['region'] if ENV['region']
