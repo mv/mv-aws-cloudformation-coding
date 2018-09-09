@@ -55,7 +55,6 @@ public subnet, the final result should be something like:
        - associate to Public Subnet A
        - associate to Public Subnet B
        - associate to Public Subnet C
-       - associate to any future public subnet
 
 
 ![VPC - 3AZs - Public](img/vpc-3azs-route-public.png?rqw=true "Public Routing")
