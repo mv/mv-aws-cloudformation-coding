@@ -77,11 +77,10 @@ task :cs do
   begin
     sh %Q{
       cd #{@dir} &&
-      aws cloudformation create-stack \
-          --output json \
+      aws cloudformation create-stack     \
+          --stack-name #{@name}           \
           --template-body file://#{@file} \
-          --stack-name #{@name} \
-          #{@params}
+          #{@param} --output json \
     }.gsub(/^[ ]*/,'').gsub(/[ ]+/,' ')
   rescue
     printf "\nrake: aws cloudformation: not created.\n\n"
@@ -98,11 +97,10 @@ task :us do
   begin
     sh %Q{
       cd #{@dir} &&
-      aws cloudformation update-stack \
-          --output json \
+      aws cloudformation update-stack     \
+          --stack-name #{@name}           \
           --template-body file://#{@file} \
-          --stack-name #{@name} \
-          #{@params}
+          #{@param} --output json        \
     }.gsub(/^[ ]*/,'').gsub(/[ ]+/,' ')
   rescue
     printf "\nrake: aws cloudformation: no updates.\n\n"
@@ -121,8 +119,8 @@ task :ds do
     sh %Q{
       cd #{@dir} &&
       aws cloudformation delete-stack \
-          --output json \
-          --stack-name #{@name}
+          --stack-name #{@name} \
+          --output json
     }.gsub(/^[ ]*/,'').gsub(/[ ]+/,' ')
   rescue
     printf "\nrake: aws cloudformation: not deleted.\n\n"
@@ -191,8 +189,8 @@ else
   exit 1
 end
 
-@name     = ENV['name'] || `echo ${file%%.*}`
-@params   = " --parameters file://#{@dir}/#{@param} " if ENV['param']
+@name  = ENV['name'] || `echo ${file%%.*}`
+@param = " --parameters file://#{ ENV['param'] } " if ENV['param']
 
 ## Hack: valid only inside the script.
 ENV['AWS_DEFAULT_REGION'] = ENV['region'] if ENV['region']
