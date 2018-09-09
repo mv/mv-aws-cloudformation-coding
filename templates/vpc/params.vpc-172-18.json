@@ -1,0 +1,20 @@
+
+[
+  { "ParameterKey" : "VPCName"       , "ParameterValue" : "vpc-172.18.0.0/16" },
+  { "ParameterKey" : "CIDRVpc"       , "ParameterValue" : "172.18.0.0/16" },
+
+  { "ParameterKey" : "CIDRPublicA"   , "ParameterValue" : "172.18.11.0/24"},
+  { "ParameterKey" : "CIDRPrivateA"  , "ParameterValue" : "172.18.12.0/24"},
+  { "ParameterKey" : "CIDRDBSubnetA" , "ParameterValue" : "172.18.13.0/24"},
+
+  { "ParameterKey" : "CIDRPublicB"   , "ParameterValue" : "172.18.21.0/24"},
+  { "ParameterKey" : "CIDRPrivateB"  , "ParameterValue" : "172.18.22.0/24"},
+  { "ParameterKey" : "CIDRDBSubnetB" , "ParameterValue" : "172.18.23.0/24"},
+
+  { "ParameterKey" : "CIDRPublicC"   , "ParameterValue" : "172.18.31.0/24"},
+  { "ParameterKey" : "CIDRPrivateC"  , "ParameterValue" : "172.18.32.0/24"},
+  { "ParameterKey" : "CIDRDBSubnetC" , "ParameterValue" : "172.18.33.0/24"},
+
+  { "ParameterKey" : "SSHLocation"   , "ParameterValue" : "0.0.0.0/0"     }
+]
+

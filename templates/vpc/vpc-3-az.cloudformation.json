@@ -1,0 +1,354 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "VPC-3-AZs: VPC built using AWS CloudFormation",
+
+  "Parameters" : {
+
+    "VPCName" : {
+      "Type" : "String",
+      "Default" : "VPC-3-AZs",
+      "Description" : "VPC name. Default: VPC-3-AZs."
+    },
+
+    "CIDRVpc"      :{ "Type":"String", "Default":"10.100.0.0/16" , "Description":"VPC CIDR"                  , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." },
+
+    "CIDRPublicA"  :{ "Type":"String", "Default":"10.100.11.0/24", "Description":"VPC CIDR Subnet Public-A"  , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." },
+    "CIDRPrivateA" :{ "Type":"String", "Default":"10.100.12.0/24", "Description":"VPC CIDR Subnet Private-A" , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." },
+    "CIDRDBSubnetA":{ "Type":"String", "Default":"10.100.13.0/24", "Description":"VPC CIDR Subnet DBSubnet-A", "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." },
+
+    "CIDRPublicB"  :{ "Type":"String", "Default":"10.100.21.0/24", "Description":"VPC CIDR Subnet Public-B"  , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." },
+    "CIDRPrivateB" :{ "Type":"String", "Default":"10.100.22.0/24", "Description":"VPC CIDR Subnet Private-B" , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." },
+    "CIDRDBSubnetB":{ "Type":"String", "Default":"10.100.23.0/24", "Description":"VPC CIDR Subnet DBSubnet-B", "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." },
+
+    "CIDRPublicC"  :{ "Type":"String", "Default":"10.100.31.0/24", "Description":"VPC CIDR Subnet Public-C"  , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." },
+    "CIDRPrivateC" :{ "Type":"String", "Default":"10.100.32.0/24", "Description":"VPC CIDR Subnet Private-C" , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." },
+    "CIDRDBSubnetC":{ "Type":"String", "Default":"10.100.33.0/24", "Description":"VPC CIDR Subnet DBSubnet-C", "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." },
+
+    "SSHLocation"  :{ "Type":"String", "Default":"0.0.0.0/0"  , "Description":"SSH source. Default:0.0.0.0/0", "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
+
+  },
+
+
+
+  "Mappings" : {
+
+    "VPCRange": {
+      "VPC"       : { "CIDR" : "10.100.0.0/16"  },
+
+      "PublicA"   : { "CIDR" : "10.100.11.0/24" },
+      "PrivateA"  : { "CIDR" : "10.100.12.0/24" },
+      "DBSubnetA" : { "CIDR" : "10.100.13.0/24" },
+
+      "PublicB"   : { "CIDR" : "10.100.21.0/24" },
+      "PrivateB"  : { "CIDR" : "10.100.22.0/24" },
+      "DBSubnetB" : { "CIDR" : "10.100.23.0/24" },
+
+      "PublicC"   : { "CIDR" : "10.100.31.0/24" },
+      "PrivateC"  : { "CIDR" : "10.100.32.0/24" },
+      "DBSubnetC" : { "CIDR" : "10.100.33.0/24" }
+    }
+
+  },
+
+
+
+  "Resources" : {
+
+    "VPC" : {
+      "Type" : "AWS::EC2::VPC",
+      "Properties" : {
+        "CidrBlock" : { "Ref": "CIDRVpc" },
+        "EnableDnsSupport"   : "true",
+        "EnableDnsHostnames" : "true",
+        "Tags" : [{ "Key" : "Name", "Value" : { "Ref" : "VPCName" } }]
+      }
+    },
+    "IGW" : {
+      "Type" : "AWS::EC2::InternetGateway",
+      "Properties" : { "Tags" : [{ "Key" : "Name", "Value" : { "Fn::Join":["",[ {"Ref":"VPCName" },"::IGW" ]] } }] }
+    },
+    "IGWAttach" : {
+       "Type" : "AWS::EC2::VPCGatewayAttachment",
+       "Properties" : { "VpcId" : { "Ref" : "VPC" }, "InternetGatewayId" : { "Ref" : "IGW" } }
+    },
+
+    "SecurityGroupSSH" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "VpcId" : { "Ref": "VPC" },
+        "GroupName" : "SSHSecurityGroup",
+        "GroupDescription" : "Default SSH SecurityGroup",
+        "SecurityGroupIngress" : [
+          { "IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : { "Ref" : "SSHLocation" } }
+        ],
+        "Tags" : [
+          { "Key" : "Name", "Value" : "SSHSecurityGroup"    },
+          { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } }
+        ]
+      }
+    },
+
+    "SubnetPubA" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "VpcId": { "Ref": "VPC" },
+        "AvailabilityZone": {"Fn::Select": [0, {"Fn::GetAZs": ""}]},
+        "CidrBlock": { "Ref": "CIDRPublicA" },
+        "Tags"     : [ { "Key" : "Name", "Value" : "PubSubnet-A"         } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+    "SubnetPrivA" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "VpcId": { "Ref": "VPC" },
+        "AvailabilityZone": {"Fn::Select": [0, {"Fn::GetAZs": ""}]},
+        "CidrBlock": { "Ref": "CIDRPrivateA" },
+        "Tags"     : [ { "Key" : "Name", "Value" : "PrivSubnet-A"        } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+    "SubnetDbA" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "VpcId": { "Ref": "VPC" },
+        "AvailabilityZone": {"Fn::Select": [0, {"Fn::GetAZs": ""}]},
+        "CidrBlock": { "Ref": "CIDRDBSubnetA" },
+        "Tags"     : [ { "Key" : "Name", "Value" : "DbSubnet-A"          } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+
+
+    "SubnetPubB" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "VpcId": { "Ref": "VPC" },
+        "AvailabilityZone": {"Fn::Select": [1, {"Fn::GetAZs": ""}]},
+        "CidrBlock": { "Ref": "CIDRPublicB" },
+        "Tags"     : [ { "Key" : "Name", "Value" : "PubSubnet-B"         } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+    "SubnetPrivB" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "VpcId": { "Ref": "VPC" },
+        "AvailabilityZone": {"Fn::Select": [1, {"Fn::GetAZs": ""}]},
+        "CidrBlock": { "Ref": "CIDRPrivateB" },
+        "Tags"     : [ { "Key" : "Name", "Value" : "PrivSubnet-B"        } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+    "SubnetDbB" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "VpcId": { "Ref": "VPC" },
+        "AvailabilityZone": {"Fn::Select": [1, {"Fn::GetAZs": ""}]},
+        "CidrBlock": { "Ref": "CIDRDBSubnetB" },
+        "Tags"     : [ { "Key" : "Name", "Value" : "DbSubnet-B"          } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+
+
+    "SubnetPubC" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "VpcId": { "Ref": "VPC" },
+        "AvailabilityZone": {"Fn::Select": [2, {"Fn::GetAZs": ""}]},
+        "CidrBlock": { "Ref": "CIDRPublicC" },
+        "Tags"     : [ { "Key" : "Name", "Value" : "PubSubnet-C"         } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+    "SubnetPrivC" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "VpcId": { "Ref": "VPC" },
+        "AvailabilityZone": {"Fn::Select": [2, {"Fn::GetAZs": ""}]},
+        "CidrBlock": { "Ref": "CIDRPrivateC" },
+        "Tags"     : [ { "Key" : "Name", "Value" : "PrivSubnet-C"        } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+    "SubnetDbC" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "VpcId": { "Ref": "VPC" },
+        "AvailabilityZone": {"Fn::Select": [2, {"Fn::GetAZs": ""}]},
+        "CidrBlock": { "Ref": "CIDRDBSubnetC" },
+        "Tags"     : [ { "Key" : "Name", "Value" : "DbSubnet-C"          } ,
+                       { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+
+
+    "RouteTablePublic" : {
+      "Type" : "AWS::EC2::RouteTable",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Public"  } ,
+                   { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+    "RouteIGW" : {
+      "Type" : "AWS::EC2::Route",
+      "DependsOn" : "IGW",
+      "Properties" : {
+        "RouteTableId" : { "Ref" : "RouteTablePublic" },
+        "DestinationCidrBlock" : "0.0.0.0/0", "GatewayId" : { "Ref" : "IGW" }
+      }
+    },
+    "RouteTableAssociationPubA" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : { "RouteTableId" : { "Ref" : "RouteTablePublic" }, "SubnetId" : { "Ref" : "SubnetPubA" } }
+    },
+    "RouteTableAssociationPubB" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : { "RouteTableId" : { "Ref" : "RouteTablePublic" }, "SubnetId" : { "Ref" : "SubnetPubB" } }
+    },
+    "RouteTableAssociationPubC" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : { "RouteTableId" : { "Ref" : "RouteTablePublic" }, "SubnetId" : { "Ref" : "SubnetPubC" } }
+    },
+
+
+    "EIPNatA" : {
+      "Type" : "AWS::EC2::EIP",
+      "Properties" : { "Domain" : "vpc" }
+    },
+    "NatA" : {
+      "Type" : "AWS::EC2::NatGateway",
+      "Properties" : {
+        "AllocationId" : { "Fn::GetAtt" : ["EIPNatA", "AllocationId"]},
+        "SubnetId" : { "Ref" : "SubnetPubA"},
+        "Tags" : [{ "Key":"Name", "Value":{ "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-A" ]] } },
+                  { "Key":"VPC" , "Value":{ "Ref" : "VPCName" } } ]
+      }
+    },
+    "RouteTablePrivA" : {
+      "Type" : "AWS::EC2::RouteTable",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Priv-A"  } ,
+                   { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+    "RouteNatA" : {
+      "Type" : "AWS::EC2::Route",
+      "Properties" : {
+        "RouteTableId" : { "Ref" : "RouteTablePrivA" },
+        "DestinationCidrBlock" : "0.0.0.0/0", "NatGatewayId" : { "Ref" : "NatA" }
+      }
+    },
+    "RouteTableAssociationPrivA" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : { "RouteTableId" : { "Ref" : "RouteTablePrivA" }, "SubnetId" : { "Ref" : "SubnetPrivA" } }
+    },
+    "RouteTableAssociationDbA" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : { "RouteTableId" : { "Ref" : "RouteTablePrivA" }, "SubnetId" : { "Ref" : "SubnetDbA" } }
+    },
+
+
+    "EIPNatB" : {
+      "Type" : "AWS::EC2::EIP",
+      "Properties" : { "Domain" : "vpc" }
+    },
+    "NatB" : {
+      "Type" : "AWS::EC2::NatGateway",
+      "Properties" : {
+        "AllocationId" : { "Fn::GetAtt" : ["EIPNatB", "AllocationId"]},
+        "SubnetId" : { "Ref" : "SubnetPubB"},
+        "Tags" : [{ "Key":"Name", "Value":{ "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-B" ]] } },
+                  { "Key":"VPC" , "Value":{ "Ref" : "VPCName" } } ]
+      }
+    },
+    "RouteTablePrivB" : {
+      "Type" : "AWS::EC2::RouteTable",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Priv-B"  } ,
+                   { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+    "RouteNatB" : {
+      "Type" : "AWS::EC2::Route",
+      "Properties" : {
+        "RouteTableId" : { "Ref" : "RouteTablePrivB" },
+        "DestinationCidrBlock" : "0.0.0.0/0", "NatGatewayId" : { "Ref" : "NatB" }
+      }
+    },
+    "RouteTableAssociationPrivB" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : { "RouteTableId" : { "Ref" : "RouteTablePrivB" }, "SubnetId" : { "Ref" : "SubnetPrivB" } }
+    },
+    "RouteTableAssociationDbB" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : { "RouteTableId" : { "Ref" : "RouteTablePrivB" }, "SubnetId" : { "Ref" : "SubnetDbB" } }
+    },
+
+
+    "EIPNatC" : {
+      "Type" : "AWS::EC2::EIP",
+      "Properties" : { "Domain" : "vpc" }
+    },
+    "NatC" : {
+      "Type" : "AWS::EC2::NatGateway",
+      "Properties" : {
+        "AllocationId" : { "Fn::GetAtt" : ["EIPNatC", "AllocationId"]},
+        "SubnetId" : { "Ref" : "SubnetPubC"},
+        "Tags" : [{ "Key":"Name", "Value":{ "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-C" ]] } },
+                  { "Key":"VPC" , "Value":{ "Ref" : "VPCName" } } ]
+      }
+    },
+    "RouteTablePrivC" : {
+      "Type" : "AWS::EC2::RouteTable",
+      "Properties" : {
+        "VpcId" : { "Ref" : "VPC" },
+        "Tags" : [ { "Key" : "Name", "Value" : "Route-Table-Priv-C"  } ,
+                   { "Key" : "VPC" , "Value" : { "Ref" : "VPCName" } } ]
+      }
+    },
+    "RouteNatC" : {
+      "Type" : "AWS::EC2::Route",
+      "Properties" : {
+        "RouteTableId" : { "Ref" : "RouteTablePrivC" },
+        "DestinationCidrBlock" : "0.0.0.0/0", "NatGatewayId" : { "Ref" : "NatC" }
+      }
+    },
+    "RouteTableAssociationPrivC" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : { "RouteTableId" : { "Ref" : "RouteTablePrivC" }, "SubnetId" : { "Ref" : "SubnetPrivC" } }
+    },
+    "RouteTableAssociationDbC" : {
+      "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties" : { "RouteTableId" : { "Ref" : "RouteTablePrivC" }, "SubnetId" : { "Ref" : "SubnetDbC" } }
+    }
+
+
+  },
+
+
+
+  "Outputs" : {
+    "VPC"         : { "Description" : "VPC id"    , "Value" : { "Ref" : "VPC"         } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-VPC"         } } } ,
+    "PubSubnetA"  : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPubA"  } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPubA"  } } } ,
+    "PrivSubnetA" : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPrivA" } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPrivA" } } } ,
+    "DbSubnetA"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbA"   } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetDbA"   } } } ,
+    "PubSubnetB"  : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPubB"  } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPubB"  } } } ,
+    "PrivSubnetB" : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPrivB" } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPrivB" } } } ,
+    "DbSubnetB"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbB"   } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetDbB"   } } } ,
+    "PubSubnetC"  : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPubC"  } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPubC"  } } } ,
+    "PrivSubnetC" : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPrivC" } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPrivC" } } } ,
+    "DbSubnetC"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbC"   } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetDbC"   } } } ,
+    "EIPNatA"     : { "Description" : "Public IP" , "Value" : { "Ref" : "EIPNatA"     } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-EIPNatA"     } } } ,
+    "EIPNatB"     : { "Description" : "Public IP" , "Value" : { "Ref" : "EIPNatB"     } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-EIPNatB"     } } } ,
+    "EIPNatC"     : { "Description" : "Public IP" , "Value" : { "Ref" : "EIPNatC"     } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-EIPNatC"     } } }
+    }
+
+
+}
+
