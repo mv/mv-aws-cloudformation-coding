@@ -125,15 +125,47 @@ private subnet, the final result should be something like:
     1. Rt-Priv-A (Route Table Subnet Private A)
        - associate to Private Subnet A
        - associate to DB Subnet A
-       - associate to any future subnet on AZ A
 
     2. Rt-Priv-B (Route Table Subnet Private B)
        - associate to Private Subnet B
        - associate to DB Subnet B
-       - associate to any future subnet on AZ B
 
     3. Rt-Priv-C (Route Table Subnet Private C)
        - associate to Private Subnet C
        - associate to DB Subnet C
-       - associate to any future subnet on AZ C
 
+
+## TODO: Adding a new Availability Zone
+
+TODO: If you need to expand your VPC to a new Availability Zone...
+TODO:
+TODO: For example, now I have "Availability Zone D"
+TODO:
+TODO: ### Subnets
+TODO:
+TODO: Create Public-D, Private-D, DbSubnet-D.
+TODO:
+TODO: ### Public Routing
+TODO:
+TODO: Just add a new route table association to `Public-D`.
+TODO:
+TODO: ### Private Routing
+TODO:
+TODO: Create:
+TODO: 1. 1 x Elastic IP
+TODO: 2. 1 x NAT Gateway: `NAT-D`
+TODO: 3. 1 x Route Table: `Rt-Priv-C`
+TODO:
+TODO:
+TODO:     Rt-Priv-D (Route Table Subnet Private D)
+TODO:     +---------------------------+
+TODO:     | local     | 10.100.0.0/16 |
+TODO:     | 0.0.0.0/0 | nat-D-id-xxxx |
+TODO:     +---------------------------+
+TODO:
+TODO: 4. Associate `Rt-Priv-C` with `Private-D` and `DbSubnet-D`
+TODO:
+TODO:     4. Rt-Priv-D (Route Table Subnet Private D)
+TODO:        - associate to Private Subnet D
+TODO:        - associate to DB Subnet D
+TODO:
