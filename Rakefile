@@ -56,8 +56,11 @@ task :vt do
     sh %Q{
       cd #{@dir} &&
       aws cloudformation validate-template  \
-        --output table                      \
         --template-body file://#{@file}     \
+        --output text                       \
+      | tail -n +2 | tr '\\t' ';'           \
+      | awk -F';' 'BEGIN {IFS=";"; OFS=":| "} {print $1,$5,$4,$2,$3,$6}' \
+      | sort -k2 | column -t -s ':' # order and align parameter list
     }.gsub(/^[ ]*/,'').gsub(/[ ]+/,' ')
   rescue
     printf "\nrake: aws cloudformation: template not valid.\n\n"
