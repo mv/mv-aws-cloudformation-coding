@@ -6,29 +6,22 @@ Description: |
 
 Parameters:
 
-  VPCName:
-    Type: String
-    Default: VPC-3-AZs
-    Description: "VPC name. Default: VPC-3-AZs."
+  VPCName:       { Type: "String", Default: "VPC-3-AZs"     , Description: "VPC name. Default: VPC-3-AZs." }
+  CIDRVpc:       { Type: "String", Default: "10.100.0.0/16" , Description: "VPC CIDR"                  , AllowedPattern: "(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", ConstraintDescription: "Must be a CIDR range a.b.c.d/x." }
 
+  CIDRPublicA:   { Type: "String", Default: "10.100.11.0/24", Description: "VPC CIDR Subnet Public-A"  , AllowedPattern: "(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", ConstraintDescription: "Must be a CIDR range a.b.c.d/x." }
+  CIDRPrivateA:  { Type: "String", Default: "10.100.12.0/24", Description: "VPC CIDR Subnet Private-A" , AllowedPattern: "(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", ConstraintDescription: "Must be a CIDR range a.b.c.d/x." }
+  CIDRDBSubnetA: { Type: "String", Default: "10.100.13.0/24", Description: "VPC CIDR Subnet DBSubnet-A", AllowedPattern: "(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", ConstraintDescription: "Must be a CIDR range a.b.c.d/x." }
 
-  CIDRVpc:       { "Type":"String", "Default":"10.100.0.0/16" , "Description":"VPC CIDR"                  , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
+  CIDRPublicB:   { Type: "String", Default: "10.100.21.0/24", Description: "VPC CIDR Subnet Public-B"  , AllowedPattern: "(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", ConstraintDescription: "Must be a CIDR range a.b.c.d/x." }
+  CIDRPrivateB:  { Type: "String", Default: "10.100.22.0/24", Description: "VPC CIDR Subnet Private-B" , AllowedPattern: "(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", ConstraintDescription: "Must be a CIDR range a.b.c.d/x." }
+  CIDRDBSubnetB: { Type: "String", Default: "10.100.23.0/24", Description: "VPC CIDR Subnet DBSubnet-B", AllowedPattern: "(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", ConstraintDescription: "Must be a CIDR range a.b.c.d/x." }
 
-  CIDRPublicA:   { "Type":"String", "Default":"10.100.11.0/24", "Description":"VPC CIDR Subnet Public-A"  , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
-  CIDRPrivateA:  { "Type":"String", "Default":"10.100.12.0/24", "Description":"VPC CIDR Subnet Private-A" , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
-  CIDRDBSubnetA: { "Type":"String", "Default":"10.100.13.0/24", "Description":"VPC CIDR Subnet DBSubnet-A", "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
+  CIDRPublicC:   { Type: "String", Default: "10.100.31.0/24", Description: "VPC CIDR Subnet Public-C"  , AllowedPattern: "(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", ConstraintDescription: "Must be a CIDR range a.b.c.d/x." }
+  CIDRPrivateC:  { Type: "String", Default: "10.100.32.0/24", Description: "VPC CIDR Subnet Private-C" , AllowedPattern: "(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", ConstraintDescription: "Must be a CIDR range a.b.c.d/x." }
+  CIDRDBSubnetC: { Type: "String", Default: "10.100.33.0/24", Description: "VPC CIDR Subnet DBSubnet-C", AllowedPattern: "(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", ConstraintDescription: "Must be a CIDR range a.b.c.d/x." }
 
-  CIDRPublicB:   { "Type":"String", "Default":"10.100.21.0/24", "Description":"VPC CIDR Subnet Public-B"  , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
-  CIDRPrivateB:  { "Type":"String", "Default":"10.100.22.0/24", "Description":"VPC CIDR Subnet Private-B" , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
-  CIDRDBSubnetB: { "Type":"String", "Default":"10.100.23.0/24", "Description":"VPC CIDR Subnet DBSubnet-B", "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
-
-  CIDRPublicC:   { "Type":"String", "Default":"10.100.31.0/24", "Description":"VPC CIDR Subnet Public-C"  , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
-  CIDRPrivateC:  { "Type":"String", "Default":"10.100.32.0/24", "Description":"VPC CIDR Subnet Private-C" , "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
-  CIDRDBSubnetC: { "Type":"String", "Default":"10.100.33.0/24", "Description":"VPC CIDR Subnet DBSubnet-C", "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
-
-  SSHLocation:   { "Type":"String", "Default":"0.0.0.0/0"  , "Description":"SSH source. Default:0.0.0.0/0", "AllowedPattern":"(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", "ConstraintDescription":"Must be a CIDR range a.b.c.d/x." }
-
-
+  SSHLocation:   { Type: "String", Default: "0.0.0.0/0"  , Description: "SSH source. Default:0.0.0.0/0", AllowedPattern: "(\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[.](\\d{1,3})[/](\\d{1,2})", ConstraintDescription: "Must be a CIDR range a.b.c.d/x." }
 
 
 Mappings:
@@ -48,8 +41,6 @@ Mappings:
       "PrivateC" : { "CIDR": "10.100.32.0/24" },
       "DBSubnetC": { "CIDR": "10.100.33.0/24" }
     }
-
-
 
 
 Resources:
@@ -74,7 +65,6 @@ Resources:
   IGWAttach:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties: { VpcId: !Ref VPC, InternetGatewayId: !Ref IGW }
-
 
   ###
   ### Security Group for SSH
@@ -236,8 +226,6 @@ Resources:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties: { SubnetId: !Ref SubnetPubC, RouteTableId: !Ref RouteTablePublic }
 
-
-
   ###
   ### Private Routing: AZ-A
   ###   - EIP
@@ -262,9 +250,8 @@ Resources:
       SubnetId: !Ref SubnetPubA
       AllocationId: { "Fn::GetAtt" : ["EIPNatA", "AllocationId"]}
       Tags:
-        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::NAT-A" ]] } }
+        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-A" ]] } }
         - { Key: VPC , Value: !Ref VPCName }
-
 
   ####
   #### Route Table Priv-A
@@ -284,7 +271,6 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       NatGatewayId: !Ref NatA
 
-
   ####
   #### Route Table Priv-A: Associations
   ####
@@ -295,7 +281,6 @@ Resources:
   RouteTableAssociationDbA:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties: { SubnetId: !Ref SubnetDbA,   RouteTableId: !Ref RouteTablePrivA }
-
 
   ###
   ### Private Routing: AZ-B
@@ -321,9 +306,8 @@ Resources:
       SubnetId: !Ref SubnetPubB
       AllocationId: { "Fn::GetAtt": ["EIPNatB", "AllocationId"]}
       Tags:
-        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::NAT-B" ]] } }
+        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-B" ]] } }
         - { Key: VPC , Value: !Ref VPCName }
-
 
   ####
   #### Route Table Priv-B
@@ -343,7 +327,6 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       NatGatewayId: !Ref NatB
 
-
   ####
   #### Route Table Priv-B: Associations
   ####
@@ -354,10 +337,6 @@ Resources:
   RouteTableAssociationDbB:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties: { SubnetId: !Ref SubnetDbB,   RouteTableId: !Ref RouteTablePrivB }
-
-
-
-
 
   ###
   ### Private Routing: AZ-C
@@ -383,9 +362,8 @@ Resources:
       SubnetId: !Ref SubnetPubC
       AllocationId: { "Fn::GetAtt": ["EIPNatC", "AllocationId"]}
       Tags:
-        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::NAT-C" ]] } }
+        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-C" ]] } }
         - { Key: VPC , Value: !Ref VPCName }
-
 
   ####
   #### Route Table Priv-C
@@ -405,7 +383,6 @@ Resources:
       DestinationCidrBlock: 0.0.0.0/0
       NatGatewayId: !Ref NatC
 
-
   ####
   #### Route Table Priv-C: Associations
   ####
@@ -418,24 +395,22 @@ Resources:
     Properties: { SubnetId: !Ref SubnetDbC,   RouteTableId: !Ref RouteTablePrivC }
 
 
-
 Outputs:
 
-  VPC:         { "Description": "VPC id"    , "Value": { "Ref": "VPC"         } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-VPC"         } } }
+  VPC:         { Description: "VPC id"    , Value: { "Ref": "VPC"         } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-VPC"         } } }
 
-  EIPNatA:     { "Description": "Public IP" , "Value": { "Ref": "EIPNatA"     } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-EIPNatA"     } } }
-  PubSubnetA:  { "Description": "Subnet id" , "Value": { "Ref": "SubnetPubA"  } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-SubnetPubA"  } } }
-  PrivSubnetA: { "Description": "Subnet id" , "Value": { "Ref": "SubnetPrivA" } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-SubnetPrivA" } } }
-  DbSubnetA:   { "Description": "Subnet id" , "Value": { "Ref": "SubnetDbA"   } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-SubnetDbA"   } } }
+  EIPNatA:     { Description: "Public IP" , Value: { "Ref": "EIPNatA"     } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-EIPNatA"     } } }
+  PubSubnetA:  { Description: "Subnet id" , Value: { "Ref": "SubnetPubA"  } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPubA"  } } }
+  PrivSubnetA: { Description: "Subnet id" , Value: { "Ref": "SubnetPrivA" } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPrivA" } } }
+  DbSubnetA:   { Description: "Subnet id" , Value: { "Ref": "SubnetDbA"   } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetDbA"   } } }
 
-  EIPNatB:     { "Description": "Public IP" , "Value": { "Ref": "EIPNatB"     } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-EIPNatB"     } } }
-  PubSubnetB:  { "Description": "Subnet id" , "Value": { "Ref": "SubnetPubB"  } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-SubnetPubB"  } } }
-  PrivSubnetB: { "Description": "Subnet id" , "Value": { "Ref": "SubnetPrivB" } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-SubnetPrivB" } } }
-  DbSubnetB:   { "Description": "Subnet id" , "Value": { "Ref": "SubnetDbB"   } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-SubnetDbB"   } } }
+  EIPNatB:     { Description: "Public IP" , Value: { "Ref": "EIPNatB"     } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-EIPNatB"     } } }
+  PubSubnetB:  { Description: "Subnet id" , Value: { "Ref": "SubnetPubB"  } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPubB"  } } }
+  PrivSubnetB: { Description: "Subnet id" , Value: { "Ref": "SubnetPrivB" } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPrivB" } } }
+  DbSubnetB:   { Description: "Subnet id" , Value: { "Ref": "SubnetDbB"   } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetDbB"   } } }
 
-  EIPNatC:     { "Description": "Public IP" , "Value": { "Ref": "EIPNatC"     } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-EIPNatC"     } } }
-  PubSubnetC:  { "Description": "Subnet id" , "Value": { "Ref": "SubnetPubC"  } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-SubnetPubC"  } } }
-  PrivSubnetC: { "Description": "Subnet id" , "Value": { "Ref": "SubnetPrivC" } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-SubnetPrivC" } } }
-  DbSubnetC:   { "Description": "Subnet id" , "Value": { "Ref": "SubnetDbC"   } , "Export": { "Name": { "Fn::Sub": "${AWS::StackName}-SubnetDbC"   } } }
-
+  EIPNatC:     { Description: "Public IP" , Value: { "Ref": "EIPNatC"     } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-EIPNatC"     } } }
+  PubSubnetC:  { Description: "Subnet id" , Value: { "Ref": "SubnetPubC"  } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPubC"  } } }
+  PrivSubnetC: { Description: "Subnet id" , Value: { "Ref": "SubnetPrivC" } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPrivC" } } }
+  DbSubnetC:   { Description: "Subnet id" , Value: { "Ref": "SubnetDbC"   } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetDbC"   } } }
 
