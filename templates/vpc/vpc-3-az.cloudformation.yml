@@ -27,19 +27,19 @@ Parameters:
 Mappings:
 
     "VPCRange": {
-      "VPC"      : { "CIDR": "10.100.0.0/16"  },
+      "VPC"       : { "CIDR": "10.100.0.0/16"  },
 
-      "PublicA"  : { "CIDR": "10.100.11.0/24" },
-      "PrivateA" : { "CIDR": "10.100.12.0/24" },
-      "DBSubnetA": { "CIDR": "10.100.13.0/24" },
+      "PublicA"   : { "CIDR": "10.100.11.0/24" },
+      "PrivateA"  : { "CIDR": "10.100.12.0/24" },
+      "DBSubnetA" : { "CIDR": "10.100.13.0/24" },
 
-      "PublicB"  : { "CIDR": "10.100.21.0/24" },
-      "PrivateB" : { "CIDR": "10.100.22.0/24" },
-      "DBSubnetB": { "CIDR": "10.100.23.0/24" },
+      "PublicB"   : { "CIDR": "10.100.21.0/24" },
+      "PrivateB"  : { "CIDR": "10.100.22.0/24" },
+      "DBSubnetB" : { "CIDR": "10.100.23.0/24" },
 
-      "PublicC"  : { "CIDR": "10.100.31.0/24" },
-      "PrivateC" : { "CIDR": "10.100.32.0/24" },
-      "DBSubnetC": { "CIDR": "10.100.33.0/24" }
+      "PublicC"   : { "CIDR": "10.100.31.0/24" },
+      "PrivateC"  : { "CIDR": "10.100.32.0/24" },
+      "DBSubnetC" : { "CIDR": "10.100.33.0/24" }
     }
 
 
