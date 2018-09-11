@@ -357,7 +357,7 @@ Resources:
         - { Key: Name, Value: Route-Table-Priv-C }
         - { Key: VPC , Value: !Ref VPCName       }
 
-  # Route to NAT-B
+  # Route to NAT-C
   RouteNatC:
     Type: AWS::EC2::Route
     Properties:
