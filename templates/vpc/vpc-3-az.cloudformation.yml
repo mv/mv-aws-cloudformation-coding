@@ -62,9 +62,33 @@ Resources:
         - { Key: Name, Value: { "Fn::Join":["",[ "IGW-",{"Ref":"VPCName" } ]] } }
         - { Key: VPC , Value: !Ref VPCName       }
 
+  # Attach IGW to VPC
   IGWAttach:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties: { VpcId: !Ref VPC, InternetGatewayId: !Ref IGW }
+
+
+  ###
+  ### Public Routing
+  ###   - Route-Table-Public
+  ###
+  RouteTablePublic:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - { Key: Name, Value: Route-Table-Public  }
+        - { Key: VPC , Value: !Ref VPCName        }
+
+  # Route to IGW
+  RouteIGW:
+    Type: AWS::EC2::Route
+    DependsOn: IGW
+    Properties:
+      RouteTableId: !Ref RouteTablePublic
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref IGW
+
 
   ###
   ### Security Group for SSH
@@ -81,16 +105,17 @@ Resources:
         - { Key: Name, Value: SSHSecurityGroup }
         - { Key: VPC , Value: !Ref VPCName     }
 
+
+
   ###
-  ### Subnets
-  ###   - Public-A   Public-B   Public-C
-  ###   - Private-A  Private-B  Private-C
-  ###   - DbSubnet-A DbSubnet-B DbSubnet-C
+  ### Availability Zone A
   ###
 
-  ####
-  #### Public-A, Private-A, DbSubnet-A
-  ####
+
+  ##
+  ## Subnet: Public-A
+  ## ----------------
+  ##
   SubnetPubA:
     Type: AWS::EC2::Subnet
     Properties:
@@ -101,6 +126,53 @@ Resources:
         - { Key: Name, Value: PubSubnet-A  }
         - { Key: VPC , Value: !Ref VPCName }
 
+  # Attach to: Route-Table-Public
+  RouteTableAssociationPubA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: { SubnetId: !Ref SubnetPubA, RouteTableId: !Ref RouteTablePublic }
+
+
+  ##
+  ## NAT Gateway-A
+  ##
+  EIPNatA:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  NatA:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref SubnetPubA
+      AllocationId: { "Fn::GetAtt" : ["EIPNatA", "AllocationId"]}
+      Tags:
+        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-A" ]] } }
+        - { Key: VPC , Value: !Ref VPCName }
+
+  ##
+  ## Route Table Priv-A
+  ##
+  RouteTablePrivA:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - { Key: Name, Value: Route-Table-Priv-A }
+        - { Key: VPC , Value: !Ref VPCName       }
+
+  # Route to NAT-A
+  RouteNatA:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref RouteTablePrivA
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatA
+
+
+  ##
+  ## Subnets: Private-A, DbSubnet-A
+  ## ------------------------------
+  ##
   SubnetPrivA:
     Type: AWS::EC2::Subnet
     Properties:
@@ -121,10 +193,28 @@ Resources:
         - { Key: Name, Value: DbSubnet-A   }
         - { Key: VPC , Value: !Ref VPCName }
 
+  ##
+  ## Subnets: Associations
+  ##
+  RouteTableAssociationPrivA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: { SubnetId: !Ref SubnetPrivA, RouteTableId: !Ref RouteTablePrivA }
 
-  ####
-  #### Public-B, Private-B, DbSubnet-B
-  ####
+  RouteTableAssociationDbA:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: { SubnetId: !Ref SubnetDbA,   RouteTableId: !Ref RouteTablePrivA }
+
+
+
+  ###
+  ### Availability Zone B
+  ###
+
+
+  ##
+  ## Subnet: Public-B
+  ## ----------------
+  ##
   SubnetPubB:
     Type: AWS::EC2::Subnet
     Properties:
@@ -135,6 +225,53 @@ Resources:
         - { Key: Name, Value: PubSubnet-B  }
         - { Key: VPC , Value: !Ref VPCName }
 
+  # Attach to: Route-Table-Public
+  RouteTableAssociationPubB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: { SubnetId: !Ref SubnetPubB, RouteTableId: !Ref RouteTablePublic }
+
+
+  ##
+  ## NAT Gateway-B
+  ##
+  EIPNatB:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  NatB:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref SubnetPubB
+      AllocationId: { "Fn::GetAtt": ["EIPNatB", "AllocationId"]}
+      Tags:
+        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-B" ]] } }
+        - { Key: VPC , Value: !Ref VPCName }
+
+  ##
+  ## Route Table Priv-B
+  ##
+  RouteTablePrivB:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - { Key: Name, Value: Route-Table-Priv-B }
+        - { Key: VPC , Value: !Ref VPCName       }
+
+  # Route to NAT-B
+  RouteNatB:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref RouteTablePrivB
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatB
+
+
+  ##
+  ## Subnets: Private-B, DbSubnet-B
+  ## ------------------------------
+  ##
   SubnetPrivB:
     Type: AWS::EC2::Subnet
     Properties:
@@ -155,10 +292,27 @@ Resources:
         - { Key: Name, Value: DbSubnet-B   }
         - { Key: VPC , Value: !Ref VPCName }
 
+  ##
+  ## Subnets: Associations
+  ##
+  RouteTableAssociationPrivB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: { SubnetId: !Ref SubnetPrivB, RouteTableId: !Ref RouteTablePrivB }
 
-  ####
-  #### Public-C, Private-C, DbSubnet-C
-  ####
+  RouteTableAssociationDbB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: { SubnetId: !Ref SubnetDbB,   RouteTableId: !Ref RouteTablePrivB }
+
+
+  ###
+  ### Availability Zone C
+  ###
+
+
+  ##
+  ## Subnet: Public-C
+  ## ----------------
+  ##
   SubnetPubC:
     Type: AWS::EC2::Subnet
     Properties:
@@ -169,6 +323,53 @@ Resources:
         - { Key: Name, Value: PubSubnet-C  }
         - { Key: VPC , Value: !Ref VPCName }
 
+  # Attach to: Route-Table-Public
+  RouteTableAssociationPubC:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: { SubnetId: !Ref SubnetPubC, RouteTableId: !Ref RouteTablePublic }
+
+
+  ##
+  ## NAT Gateway-C
+  ##
+  EIPNatC:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+
+  NatC:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      SubnetId: !Ref SubnetPubC
+      AllocationId: { "Fn::GetAtt": ["EIPNatC", "AllocationId"]}
+      Tags:
+        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-C" ]] } }
+        - { Key: VPC , Value: !Ref VPCName }
+
+  ##
+  ## Route Table Priv-C
+  ##
+  RouteTablePrivC:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - { Key: Name, Value: Route-Table-Priv-C }
+        - { Key: VPC , Value: !Ref VPCName       }
+
+  # Route to NAT-B
+  RouteNatC:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref RouteTablePrivC
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatC
+
+
+  ##
+  ## Subnets: Private-C, DbSubnet-C
+  ## ------------------------------
+  ##
   SubnetPrivC:
     Type: AWS::EC2::Subnet
     Properties:
@@ -189,203 +390,9 @@ Resources:
         - { Key: Name, Value: DbSubnet-C   }
         - { Key: VPC , Value: !Ref VPCName }
 
-
-  ###
-  ### Public Routing
-  ###   - Route-Table-Public
-  ###   - Attach to:
-  ###     - PubSubnet-A
-  ###     - PubSubnet-B
-  ###     - PubSubnet-C
-  ###
-  RouteTablePublic:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref VPC
-      Tags:
-        - { Key: Name, Value: Route-Table-Public  }
-        - { Key: VPC , Value: !Ref VPCName        }
-
-  RouteIGW:
-    Type: AWS::EC2::Route
-    DependsOn: IGW
-    Properties:
-      RouteTableId: !Ref RouteTablePublic
-      DestinationCidrBlock: 0.0.0.0/0
-      GatewayId: !Ref IGW
-
-  RouteTableAssociationPubA:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties: { SubnetId: !Ref SubnetPubA, RouteTableId: !Ref RouteTablePublic }
-
-  RouteTableAssociationPubB:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties: { SubnetId: !Ref SubnetPubB, RouteTableId: !Ref RouteTablePublic }
-
-  RouteTableAssociationPubC:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties: { SubnetId: !Ref SubnetPubC, RouteTableId: !Ref RouteTablePublic }
-
-  ###
-  ### Private Routing: AZ-A
-  ###   - EIP
-  ###   - NAT-A
-  ###   - Route-Table-Priv-A
-  ###   - Attach to:
-  ###     - PrivSubnet-A
-  ###     - DbSubnet-A
-  ###
-
-  ####
-  #### NAT Gateway-A
-  ####
-  EIPNatA:
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-
-  NatA:
-    Type: AWS::EC2::NatGateway
-    Properties:
-      SubnetId: !Ref SubnetPubA
-      AllocationId: { "Fn::GetAtt" : ["EIPNatA", "AllocationId"]}
-      Tags:
-        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-A" ]] } }
-        - { Key: VPC , Value: !Ref VPCName }
-
-  ####
-  #### Route Table Priv-A
-  ####
-  RouteTablePrivA:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref VPC
-      Tags:
-        - { Key: Name, Value: Route-Table-Priv-A }
-        - { Key: VPC , Value: !Ref VPCName       }
-
-  RouteNatA:
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref RouteTablePrivA
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NatA
-
-  ####
-  #### Route Table Priv-A: Associations
-  ####
-  RouteTableAssociationPrivA:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties: { SubnetId: !Ref SubnetPrivA, RouteTableId: !Ref RouteTablePrivA }
-
-  RouteTableAssociationDbA:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties: { SubnetId: !Ref SubnetDbA,   RouteTableId: !Ref RouteTablePrivA }
-
-  ###
-  ### Private Routing: AZ-B
-  ###   - EIP
-  ###   - NAT-B
-  ###   - Route-Table-Priv-B
-  ###   - Attach to:
-  ###     - PrivSubnet-B
-  ###     - DbSubnet-B
-  ###
-
-  ####
-  #### NAT Gateway-B
-  ####
-  EIPNatB:
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-
-  NatB:
-    Type: AWS::EC2::NatGateway
-    Properties:
-      SubnetId: !Ref SubnetPubB
-      AllocationId: { "Fn::GetAtt": ["EIPNatB", "AllocationId"]}
-      Tags:
-        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-B" ]] } }
-        - { Key: VPC , Value: !Ref VPCName }
-
-  ####
-  #### Route Table Priv-B
-  ####
-  RouteTablePrivB:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref VPC
-      Tags:
-        - { Key: Name, Value: Route-Table-Priv-B }
-        - { Key: VPC , Value: !Ref VPCName       }
-
-  RouteNatB:
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref RouteTablePrivB
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NatB
-
-  ####
-  #### Route Table Priv-B: Associations
-  ####
-  RouteTableAssociationPrivB:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties: { SubnetId: !Ref SubnetPrivB, RouteTableId: !Ref RouteTablePrivB }
-
-  RouteTableAssociationDbB:
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties: { SubnetId: !Ref SubnetDbB,   RouteTableId: !Ref RouteTablePrivB }
-
-  ###
-  ### Private Routing: AZ-C
-  ###   - EIP
-  ###   - NAT-C
-  ###   - Route-Table-Priv-C
-  ###   - Attach to:
-  ###     - PrivSubnet-C
-  ###     - DbSubnet-C
-  ###
-
-  ####
-  #### NAT Gateway-C
-  ####
-  EIPNatC:
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-
-  NatC:
-    Type: AWS::EC2::NatGateway
-    Properties:
-      SubnetId: !Ref SubnetPubC
-      AllocationId: { "Fn::GetAtt": ["EIPNatC", "AllocationId"]}
-      Tags:
-        - { Key: Name, Value: { "Fn::Join":["",[ {"Ref":"VPCName" },"::Nat-C" ]] } }
-        - { Key: VPC , Value: !Ref VPCName }
-
-  ####
-  #### Route Table Priv-C
-  ####
-  RouteTablePrivC:
-    Type: AWS::EC2::RouteTable
-    Properties:
-      VpcId: !Ref VPC
-      Tags:
-        - { Key: Name, Value: Route-Table-Priv-C }
-        - { Key: VPC , Value: !Ref VPCName       }
-
-  RouteNatC:
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref RouteTablePrivC
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NatC
-
-  ####
-  #### Route Table Priv-C: Associations
-  ####
+  ##
+  ## Route Table Priv-C: Associations
+  ##
   RouteTableAssociationPrivC:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties: { SubnetId: !Ref SubnetPrivC, RouteTableId: !Ref RouteTablePrivC }
@@ -393,6 +400,7 @@ Resources:
   RouteTableAssociationDbC:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties: { SubnetId: !Ref SubnetDbC,   RouteTableId: !Ref RouteTablePrivC }
+
 
 
 Outputs:
