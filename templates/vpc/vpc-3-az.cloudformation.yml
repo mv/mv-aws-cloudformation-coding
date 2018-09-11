@@ -1,3 +1,36 @@
+### This an example of a Cloudformation script in yaml format.
+###
+### To execute this script you can:
+###
+### 1. Use the AWS console -> Cloudformation -> Create Stack
+###
+### or
+###
+### 2. Use the awscli command line tool:
+###
+###    $ aws cloudformation create-stack \
+###        --stack-name vpc-172-18       \
+###        --template-body file://vpc-3-az.cloudformation.yml \
+###        --params params.vpc-172-18.json
+###
+###
+### A parameter file must be in the following format:
+###
+###     [
+###       { "ParameterKey" : "VPCName"       , "ParameterValue" : "vpc-172.18.0.0/16" },
+###       { "ParameterKey" : "CIDRVpc"       , "ParameterValue" : "172.18.0.0/16" },
+###       { "ParameterKey" : "CIDRPublicA"   , "ParameterValue" : "172.18.11.0/24"},
+###       { "ParameterKey" : "CIDRPrivateA"  , "ParameterValue" : "172.18.12.0/24"},
+###       { "ParameterKey" : "CIDRDBSubnetA" , "ParameterValue" : "172.18.13.0/24"},
+###       { "ParameterKey" : "CIDRPublicB"   , "ParameterValue" : "172.18.21.0/24"},
+###       { "ParameterKey" : "CIDRPrivateB"  , "ParameterValue" : "172.18.22.0/24"},
+###       { "ParameterKey" : "CIDRDBSubnetB" , "ParameterValue" : "172.18.23.0/24"},
+###       { "ParameterKey" : "CIDRPublicC"   , "ParameterValue" : "172.18.31.0/24"},
+###       { "ParameterKey" : "CIDRPrivateC"  , "ParameterValue" : "172.18.32.0/24"},
+###       { "ParameterKey" : "CIDRDBSubnetC" , "ParameterValue" : "172.18.33.0/24"},
+###       { "ParameterKey" : "SSHLocation"   , "ParameterValue" : "0.0.0.0/0"     }
+###     ]
+###
 
 AWSTemplateFormatVersion: 2010-09-09
 
