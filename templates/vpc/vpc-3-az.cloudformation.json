@@ -347,10 +347,10 @@
     "PrivSubnetB" : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPrivB" } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPrivB" } } } ,
     "DbSubnetB"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbB"   } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetDbB"   } } } ,
 
-    "EIPNatC"     : { "Description" : "Public IP" , "Value" : { "Ref" : "EIPNatC"     } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-EIPNatC"     } } }
+    "EIPNatC"     : { "Description" : "Public IP" , "Value" : { "Ref" : "EIPNatC"     } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-EIPNatC"     } } } ,
     "PubSubnetC"  : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPubC"  } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPubC"  } } } ,
     "PrivSubnetC" : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetPrivC" } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetPrivC" } } } ,
-    "DbSubnetC"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbC"   } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetDbC"   } } } ,
+    "DbSubnetC"   : { "Description" : "Subnet id" , "Value" : { "Ref" : "SubnetDbC"   } , "Export" : { "Name" : { "Fn::Sub": "${AWS::StackName}-SubnetDbC"   } } }
     }
 
 
