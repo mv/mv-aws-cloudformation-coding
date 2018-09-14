@@ -453,21 +453,21 @@ Resources:
 
 Outputs:
 
-  VPC:         { Description: "VPC id"    , Value: { "Ref": "VPC"         } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-VPC"         } } }
-
-  EIPNatA:     { Description: "Public IP" , Value: { "Ref": "EIPNatA"     } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-EIPNatA"     } } }
-  PubSubnetA:  { Description: "Subnet id" , Value: { "Ref": "SubnetPubA"  } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPubA"  } } }
-  PrivSubnetA: { Description: "Subnet id" , Value: { "Ref": "SubnetPrivA" } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPrivA" } } }
-  DbSubnetA:   { Description: "Subnet id" , Value: { "Ref": "SubnetDbA"   } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetDbA"   } } }
-
-  EIPNatB:     { Description: "Public IP" , Value: { "Ref": "EIPNatB"     } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-EIPNatB"     } } }
-  PubSubnetB:  { Description: "Subnet id" , Value: { "Ref": "SubnetPubB"  } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPubB"  } } }
-  PrivSubnetB: { Description: "Subnet id" , Value: { "Ref": "SubnetPrivB" } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPrivB" } } }
-  DbSubnetB:   { Description: "Subnet id" , Value: { "Ref": "SubnetDbB"   } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetDbB"   } } }
-
-  EIPNatC:     { Description: "Public IP" , Value: { "Ref": "EIPNatC"     } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-EIPNatC"     } } }
-  PubSubnetC:  { Description: "Subnet id" , Value: { "Ref": "SubnetPubC"  } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPubC"  } } }
-  PrivSubnetC: { Description: "Subnet id" , Value: { "Ref": "SubnetPrivC" } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPrivC" } } }
-  DbSubnetC:   { Description: "Subnet id" , Value: { "Ref": "SubnetDbC"   } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetDbC"   } } }
+  VPC:           { Description: "VPC id"    , Value: { "Ref": "VPC"           } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-VPC"           } } }
   DBSubnetGroup: { Description: "Group id"  , Value: { "Ref": "DBSubnetGroup" } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-DBSubnetGroup" } } }
+
+  EIPNatA:       { Description: "Public IP" , Value: { "Ref": "EIPNatA"       } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-EIPNatA"       } } }
+  PubSubnetA:    { Description: "Subnet id" , Value: { "Ref": "SubnetPubA"    } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPubA"    } } }
+  PrivSubnetA:   { Description: "Subnet id" , Value: { "Ref": "SubnetPrivA"   } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPrivA"   } } }
+  DbSubnetA:     { Description: "Subnet id" , Value: { "Ref": "SubnetDbA"     } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetDbA"     } } }
+
+  EIPNatB:       { Description: "Public IP" , Value: { "Ref": "EIPNatB"       } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-EIPNatB"       } } }
+  PubSubnetB:    { Description: "Subnet id" , Value: { "Ref": "SubnetPubB"    } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPubB"    } } }
+  PrivSubnetB:   { Description: "Subnet id" , Value: { "Ref": "SubnetPrivB"   } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPrivB"   } } }
+  DbSubnetB:     { Description: "Subnet id" , Value: { "Ref": "SubnetDbB"     } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetDbB"     } } }
+
+  EIPNatC:       { Description: "Public IP" , Value: { "Ref": "EIPNatC"       } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-EIPNatC"       } } }
+  PubSubnetC:    { Description: "Subnet id" , Value: { "Ref": "SubnetPubC"    } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPubC"    } } }
+  PrivSubnetC:   { Description: "Subnet id" , Value: { "Ref": "SubnetPrivC"   } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPrivC"   } } }
+  DbSubnetC:     { Description: "Subnet id" , Value: { "Ref": "SubnetDbC"     } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetDbC"     } } }
 
