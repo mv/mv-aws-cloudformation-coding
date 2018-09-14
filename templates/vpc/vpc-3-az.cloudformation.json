@@ -326,12 +326,22 @@
     "RouteTableAssociationDbC" : {
       "Type" : "AWS::EC2::SubnetRouteTableAssociation",
       "Properties" : { "RouteTableId" : { "Ref" : "RouteTablePrivC" }, "SubnetId" : { "Ref" : "SubnetDbC" } }
+    },
+
+
+    "DBSubnetGroup": {
+      "Type" : "AWS::RDS::DBSubnetGroup",
+      "Properties" : {
+        "DBSubnetGroupName" :        { "Fn::Sub": "${AWS::StackName}-dbsubnetgroup"  },
+        "DBSubnetGroupDescription" : { "Fn::Sub": "DbSubnetGroup: ${AWS::StackName}" },
+        "SubnetIds" : [ { "Ref": "SubnetDbA" }, { "Ref": "SubnetDbB" }, { "Ref": "SubnetDbC" } ],
+        "Tags" : [
+          { "Key": "Name", "Value": { "Fn::Sub": "${AWS::StackName}-dbsubnetgroup" } },
+          { "Key": "VPC" , "Value": { "Ref": "VPCName" } }
+        ]
+      }
     }
-
-
   },
-
-
 
   "Outputs" : {
 

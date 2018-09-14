@@ -435,6 +435,21 @@ Resources:
     Properties: { SubnetId: !Ref SubnetDbC,   RouteTableId: !Ref RouteTablePrivC }
 
 
+  ###
+  ### DBSubnet Group for RDS
+  ###
+  DBSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupName:        { "Fn::Sub": "${AWS::StackName}-dbsubnetgroup"  }
+      DBSubnetGroupDescription: { "Fn::Sub": "DbSubnetGroup: ${AWS::StackName}" }
+      SubnetIds:
+        - !Ref SubnetDbA
+        - !Ref SubnetDbB
+        - !Ref SubnetDbC
+      Tags:
+        - { Key: Name, Value: { "Fn::Sub": "${AWS::StackName}-dbsubnetgroup" } }
+        - { Key: VPC , Value: !Ref VPCName }
 
 Outputs:
 
@@ -454,4 +469,5 @@ Outputs:
   PubSubnetC:  { Description: "Subnet id" , Value: { "Ref": "SubnetPubC"  } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPubC"  } } }
   PrivSubnetC: { Description: "Subnet id" , Value: { "Ref": "SubnetPrivC" } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetPrivC" } } }
   DbSubnetC:   { Description: "Subnet id" , Value: { "Ref": "SubnetDbC"   } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-SubnetDbC"   } } }
+  DBSubnetGroup: { Description: "Group id"  , Value: { "Ref": "DBSubnetGroup" } , Export: { Name: { "Fn::Sub": "${AWS::StackName}-DBSubnetGroup" } } }
 
