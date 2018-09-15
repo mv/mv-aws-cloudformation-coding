@@ -155,6 +155,7 @@ Resources:
       VpcId: !Ref VPC
       CidrBlock: !Ref CIDRPublicA
       AvailabilityZone: { "Fn::Select" : [ "0", { "Fn::GetAZs" : "" } ] }
+      MapPublicIpOnLaunch: True
       Tags:
         - { Key: Name, Value: PubSubnet-A  }
         - { Key: VPC , Value: !Ref VPCName }
@@ -254,6 +255,7 @@ Resources:
       VpcId: !Ref VPC
       CidrBlock: !Ref CIDRPublicB
       AvailabilityZone: { "Fn::Select" : [ "1", { "Fn::GetAZs" : "" } ] }
+      MapPublicIpOnLaunch: True
       Tags:
         - { Key: Name, Value: PubSubnet-B  }
         - { Key: VPC , Value: !Ref VPCName }
@@ -352,6 +354,7 @@ Resources:
       VpcId: !Ref VPC
       CidrBlock: !Ref CIDRPublicC
       AvailabilityZone: { "Fn::Select" : [ "2", { "Fn::GetAZs" : "" } ] }
+      MapPublicIpOnLaunch: True
       Tags:
         - { Key: Name, Value: PubSubnet-C  }
         - { Key: VPC , Value: !Ref VPCName }
